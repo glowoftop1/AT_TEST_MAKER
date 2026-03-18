@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'; // ⭐ 1. 화면 그리기 도구
 import { Upload, FileText, Loader2, CheckCircle2, AlertCircle, BookOpen, X, Download, Settings2, ChevronDown, ChevronUp } from 'lucide-react';
 import { generateQuestions } from './gemini';
 import { QuizData, FileData, QuizOptions, QuestionType } from './types';
+import './index.css';
 
 export default function App() {
   const [files, setFiles] = useState<FileData[]>([]);
