@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { createRoot } from 'react-dom/client'; // ⭐ 1. 화면 그리기 도구 추가
 import { Upload, FileText, Loader2, CheckCircle2, AlertCircle, BookOpen, X, Download, Settings2, ChevronDown, ChevronUp } from 'lucide-react';
 import { generateQuestions } from './gemini';
 import { QuizData, FileData, QuizOptions, QuestionType } from './types';
@@ -19,7 +20,7 @@ export default function App() {
       중: 3,
       하: 1
     },
-    questionConfigs: [
+    questionConfigs:[
       { difficulty: '상', type: 'multiple_choice' },
       { difficulty: '중', type: 'multiple_choice' },
       { difficulty: '중', type: 'multiple_choice' },
@@ -30,7 +31,7 @@ export default function App() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const questionTypeOptions: { id: QuestionType; label: string }[] = [
+  const questionTypeOptions: { id: QuestionType; label: string }[] =[
     { id: 'multiple_choice', label: '객관식 (4지/5지)' },
     { id: 'short_answer', label: '단답형 (주관식)' },
     { id: 'descriptive', label: '서술형/논술형' },
@@ -41,7 +42,7 @@ export default function App() {
 
   // Update question configs when distribution changes
   const updateQuestionConfigs = (dist: { 상: number, 중: number, 하: number }) => {
-    const newConfigs: QuizOptions['questionConfigs'] = [];
+    const newConfigs: QuizOptions['questionConfigs'] =[];
     
     // Add 'High'
     for (let i = 0; i < dist.상; i++) newConfigs.push({ difficulty: '상', type: 'multiple_choice' });
@@ -160,7 +161,7 @@ export default function App() {
   const downloadHWP = () => {
     if (!quizData) return;
     
-    const circleNumbers = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
+    const circleNumbers =['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
 
     let htmlContent = `
     <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
@@ -203,7 +204,7 @@ export default function App() {
     quizData.questions.forEach((q, i) => {
       htmlContent += `
         <div class="question-container">
-          <h2>문제 ${i + 1}. [${getTypeName(q.type)}] [난이도: ${q.difficulty}]</h2>
+          <h2>문제 ${i + 1}.[${getTypeName(q.type)}] [난이도: ${q.difficulty}]</h2>
           <p style="margin-bottom: 5px;">${q.question}</p>
       `;
       
@@ -604,4 +605,10 @@ export default function App() {
       </main>
     </div>
   );
+}
+
+// ⭐ 2. 화면에 앱을 렌더링(그리기)하는 필수 명령어! 
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  createRoot(rootElement).render(<App />);
 }
